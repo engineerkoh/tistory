@@ -26,20 +26,22 @@
   var hour = document.querySelector(".hour");
   var min = document.querySelector(".min");
   var sec = document.querySelector(".sec");
-  
+  var dday=document.querySelector("#count-down dt");
 
-  function diffDay() {
-    var masTime = new Date;
-    masTime.setFullYear(2022,10,16); // 자바스크립트에서 월과 요일은 0부터 세므로 11월은 10이 됨.
+  var T=setInterval(diffDay, 1000);
+  var masTime = new Date;
+    masTime.setFullYear(2022,10,15); // 자바스크립트에서 월과 요일은 0부터 세므로 11월은 10이 됨.
     masTime.setHours(17,0,0,0); // 17시를 의미함
     
-    var diff = Math.round((masTime.getTime()-new Date().getTime())/1000);
+    var masTime = Math.round((masTime.getTime()-new Date().getTime())/1000);
 
-    diff=diff-1; //1초씩 감소
+  function diffDay() {
+
+    masTime = masTime-1; //1초씩 감소
  
    
-    var d_sec2=diff%3600; // 남은 초를 1시간 3600초 단위로 계산후 나머지 초
-    var d_hours=String((diff-d_sec2)/3600).padStart(2,"0"); // 시간 계산
+    var d_sec2=masTime%3600; // 남은 초를 1시간 3600초 단위로 계산후 나머지 초
+    var d_hours=String((masTime-d_sec2)/3600).padStart(2,"0"); // 시간 계산
 
     var d_sec3=String(d_sec2 % 60).padStart(2,"0"); // 남은 초를 60초 단위로 계산후 나머지 초
     var d_mins=String((d_sec2 - d_sec3) / 60).padStart(2,"0"); // 분 계산
@@ -48,10 +50,16 @@
     hour.innerText = `${d_hours}` + ":";
     min.innerText = `${d_mins}`  + ":";;  
     sec.innerText = `${d_sec3}`; 
+
+    if(masTime<=0){
+    clearInterval(T);
+    hour.innerText = `00` + ":";
+    min.innerText = `00`  + ":";;  
+    sec.innerText = `00`; 
+    }
 }
 
-diffDay();
-setInterval(diffDay, 1000);
+
 </script>
 
 <style>
